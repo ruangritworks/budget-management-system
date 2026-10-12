@@ -1,0 +1,22 @@
+.document-signatures {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 12mm;
+    width: 100%;
+    margin-top: 12mm;
+}
+.document-signature {
+    width: 90mm;
+    max-width: 100%;
+    min-height: 25mm;
+    text-align: center;
+    overflow-wrap: anywhere;
+    break-inside: avoid;
+    page-break-inside: avoid;
+    border: 0;
+    background: transparent;
+}
+.signature-role { font-weight: 700; margin-bottom: 5mm; }
+.signature-line { margin-bottom: 2mm; }
+@media print { .document-signatures { clear: both; } }

@@ -1,0 +1,12 @@
+{
+    "name": "user/budget_system",
+    "authors": [
+        {
+            "name": "Ruangrit Srimuang",
+            "email": "ruangrit@example.com"
+        }
+    ],
+    "require": {
+        "phpoffice/phpspreadsheet": "^5.4"
+    }
+}

@@ -1,0 +1,6 @@
+<?php
+require '../config/auth.php';require '../config/db.php';require '../vendor/autoload.php';require '../config/reporting_35.php';require '../config/report_workbook_35.php';require '../config/archive.php';require_permission('report.export');
+require_once '../config/export_guard.php';
+try{
+ $view=(string)($_GET['view']??'unit');if(!in_array($view,['unit','cost','gfmis_cost','gfmis','quarter'],true))throw new DomainException('มุมมองไม่ถูกต้อง');$year=(int)($_GET['year']??fiscal_year_for_date());$rows=report_accounts($conn,$_GET);if(!$rows)throw new DomainException('ไม่พบข้อมูลตามเงื่อนไข');$signers=db_document_signers($conn,is_admin()?(int)($_GET['unit_id']??0):current_unit_id(),'OVERVIEW_35');$book=overview_workbook($rows,$view,$year,$signers);$filename='35MDBS_overview_'.$view.'_'.$year.'.xlsx';$writer=new PhpOffice\PhpSpreadsheet\Writer\Xlsx($book);$bytes=archive_spreadsheet($conn,$writer,'OVERVIEW_35',0,is_admin()?0:current_unit_id(),$year,$filename,['filters'=>$_GET,'view'=>$view,'signers'=>$signers]);header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');header('Content-Disposition: attachment; filename="'.$filename.'"');header('Cache-Control: no-store');echo $bytes;
+}catch(Throwable $e){http_response_code(400);header('Content-Type: text/plain; charset=UTF-8');echo operation_error($e);}

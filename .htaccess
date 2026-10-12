@@ -1,0 +1,5 @@
+Require local
+Options -Indexes
+<FilesMatch "^(\.|composer\.(json|lock)$|README|AGENTS|.*\.(sql|log|bak|zip)$)">
+    Require all denied
+</FilesMatch>

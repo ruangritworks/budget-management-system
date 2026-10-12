@@ -1,0 +1,5 @@
+<?php
+require_once __DIR__.'/organization.php';
+$accountClassification=classification_get($conn,(int)$id);
+?>
+<section class="panel"><h2>หน่วยและข้อมูลจำแนกงบ</h2><?php if($accountClassification):?><dl class="classification-details"><?php foreach(['main_unit'=>'หน่วยหลัก','sub_unit'=>'หน่วยย่อย','secondary_unit'=>'หน่วยรอง','cost_center'=>'ศูนย์ต้นทุน','strategy_no'=>'ยุทธศาสตร์ที่','plan_name'=>'แผนงาน','activity_name'=>'กิจกรรม','work_group'=>'กลุ่มงบงาน','project_name'=>'งบงานย่อย / โครงการ','expense_code'=>'หมวดเงิน'] as $key=>$label):?><div><dt><?=$label?></dt><dd><?=htmlspecialchars((string)($accountClassification[$key]??''))?></dd></div><?php endforeach;?></dl><?php else:?><p>บัญชีคุมงบประมาณเดิมยังไม่ได้จำแนกหน่วยและแผนงาน ระบบไม่เติมข้อมูลโดยคาดเดา</p><?php endif;?><div class="toolbar"><a class="btn btn-outline" href="budget_classification.php?id=<?=(int)$id?>">ข้อมูลจำแนก / แผนรายไตรมาส</a><?php if(has_permission('voucher.pay')):?><a class="btn btn-outline" href="gfmis_confirm.php?id=<?=(int)$id?>">ยืนยันผลเบิก GFMIS</a><?php endif;?></div></section>
